@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+    <property name="LOG_DIR" value="/tmp/oidigital/logs/application.log" />
+    <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}</file>
+        <prudent>true</prudent> <!-- safely write to file -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/tmp/oidigital/logs/api-sb.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <MaxHistory>30</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d %p $c[1.] [%t] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.example.poc-demo" level="INFO" additivity="false">
+        <appender-ref ref="ROLLING_FILE" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="ROLLING_FILE" />
+    </root>
+        
+
+</configuration>
